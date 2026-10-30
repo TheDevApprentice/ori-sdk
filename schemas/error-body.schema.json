@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ErrorBody",
+  "description": "Corps d'erreur unique sur le réseau : aucune trace, chemin, requête SQL ni nom de crate.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "description": "Code stable traduit par le client.",
+      "$ref": "#/$defs/ErrorCode"
+    },
+    "params": {
+      "description": "Paramètres structurés insérés comme texte par le client.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {}
+    },
+    "request_id": {
+      "description": "Identifiant de requête pour corréler avec les journaux du hub.",
+      "$ref": "#/$defs/RequestId"
+    },
+    "retry": {
+      "description": "Conduite à tenir.",
+      "$ref": "#/$defs/Retry"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "code",
+    "request_id",
+    "retry"
+  ],
+  "$defs": {
+    "ErrorCode": {
+      "description": "Code d'erreur stable, de la forme `domaine.motif` en minuscules ASCII (`auth.invalid_credentials`).",
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^(auth|conversation|message|engine|plugin|rate|input|internal)\\.[a-z0-9_]+$"
+    },
+    "RequestId": {
+      "description": "Identifiant de requête propagé du client au plugin (ADR-010).",
+      "type": "string",
+      "format": "uuid"
+    },
+    "Retry": {
+      "description": "Indication de nouvelle tentative transmise au client.",
+      "oneOf": [
+        {
+          "description": "Ne pas réessayer.",
+          "type": "string",
+          "const": "never"
+        },
+        {
+          "description": "Réessayer plus tard.",
+          "type": "string",
+          "const": "later"
+        },
+        {
+          "description": "Réessayer après une action (reconnexion, rafraîchissement).",
+          "type": "string",
+          "const": "after"
+        }
+      ]
+    }
+  }
+}

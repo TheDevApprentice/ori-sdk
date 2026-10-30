@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ClientMessage",
+  "description": "Message envoyé par un client au hub.",
+  "oneOf": [
+    {
+      "description": "Ouverture : version du protocole demandée (le jeton voyage hors du message, ADR-013).",
+      "type": "object",
+      "properties": {
+        "proto": {
+          "type": "integer",
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0
+        },
+        "type": {
+          "type": "string",
+          "const": "hello"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "proto"
+      ]
+    },
+    {
+      "description": "Envoi d'un message texte.",
+      "type": "object",
+      "properties": {
+        "client_msg_id": {
+          "$ref": "#/$defs/ClientMessageId"
+        },
+        "conversation_id": {
+          "$ref": "#/$defs/ConversationId"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "message.send"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "conversation_id",
+        "client_msg_id",
+        "text"
+      ]
+    },
+    {
+      "description": "Annulation d'une génération en cours.",
+      "type": "object",
+      "properties": {
+        "conversation_id": {
+          "$ref": "#/$defs/ConversationId"
+        },
+        "message_id": {
+          "$ref": "#/$defs/MessageId"
+        },
+        "type": {
+          "type": "string",
+          "const": "cancel"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "conversation_id",
+        "message_id"
+      ]
+    },
+    {
+      "description": "Reprise après coupure depuis le dernier événement reçu.",
+      "type": "object",
+      "properties": {
+        "conversation_id": {
+          "$ref": "#/$defs/ConversationId"
+        },
+        "last_event_id": {
+          "$ref": "#/$defs/EventId"
+        },
+        "type": {
+          "type": "string",
+          "const": "resume"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "conversation_id",
+        "last_event_id"
+      ]
+    }
+  ],
+  "$defs": {
+    "ClientMessageId": {
+      "description": "Identifiant d'idempotence choisi par le client pour `message.send`.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "ConversationId": {
+      "description": "Identifiant d'une conversation.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "EventId": {
+      "description": "Numéro d'événement, croissant par conversation, utilisé pour la reprise (`resume`, D44).",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "MessageId": {
+      "description": "Identifiant d'un message attribué par le hub.",
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

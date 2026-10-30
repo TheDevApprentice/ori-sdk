@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServerMessage",
+  "description": "Message envoyé par le hub à un client.",
+  "oneOf": [
+    {
+      "description": "Version acceptée.",
+      "type": "object",
+      "properties": {
+        "proto": {
+          "type": "integer",
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0
+        },
+        "type": {
+          "type": "string",
+          "const": "ready"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "proto"
+      ]
+    },
+    {
+      "description": "Message reçu et identifié par le hub.",
+      "type": "object",
+      "properties": {
+        "client_msg_id": {
+          "$ref": "#/$defs/ClientMessageId"
+        },
+        "message_id": {
+          "$ref": "#/$defs/MessageId"
+        },
+        "type": {
+          "type": "string",
+          "const": "message.accepted"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "client_msg_id",
+        "message_id"
+      ]
+    },
+    {
+      "description": "Changement d'état de session.",
+      "type": "object",
+      "properties": {
+        "conversation_id": {
+          "$ref": "#/$defs/ConversationId"
+        },
+        "state": {
+          "$ref": "#/$defs/SessionState"
+        },
+        "type": {
+          "type": "string",
+          "const": "state"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "conversation_id",
+        "state"
+      ]
+    },
+    {
+      "description": "Morceau de texte généré.",
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/EventId"
+        },
+        "message_id": {
+          "$ref": "#/$defs/MessageId"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "token"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "event_id",
+        "message_id",
+        "text"
+      ]
+    },
+    {
+      "description": "Appel d'outil en cours ou terminé.",
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/EventId"
+        },
+        "status": {
+          "$ref": "#/$defs/ToolStatus"
+        },
+        "tool": {
+          "$ref": "#/$defs/ToolName"
+        },
+        "type": {
+          "type": "string",
+          "const": "tool"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "event_id",
+        "tool",
+        "status"
+      ]
+    },
+    {
+      "description": "Message complet.",
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/EventId"
+        },
+        "message_id": {
+          "$ref": "#/$defs/MessageId"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "message.final"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "event_id",
+        "message_id",
+        "text"
+      ]
+    },
+    {
+      "description": "Erreur au format unique.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Code stable traduit par le client.",
+          "$ref": "#/$defs/ErrorCode"
+        },
+        "params": {
+          "description": "Paramètres structurés insérés comme texte par le client.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {}
+        },
+        "request_id": {
+          "description": "Identifiant de requête pour corréler avec les journaux du hub.",
+          "$ref": "#/$defs/RequestId"
+        },
+        "retry": {
+          "description": "Conduite à tenir.",
+          "$ref": "#/$defs/Retry"
+        },
+        "type": {
+          "type": "string",
+          "const": "error"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "code",
+        "request_id",
+        "retry"
+      ]
+    }
+  ],
+  "$defs": {
+    "ClientMessageId": {
+      "description": "Identifiant d'idempotence choisi par le client pour `message.send`.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "ConversationId": {
+      "description": "Identifiant d'une conversation.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "ErrorCode": {
+      "description": "Code d'erreur stable, de la forme `domaine.motif` en minuscules ASCII (`auth.invalid_credentials`).",
+      "type": "string",
+      "maxLength": 64,
+      "pattern": "^(auth|conversation|message|engine|plugin|rate|input|internal)\\.[a-z0-9_]+$"
+    },
+    "EventId": {
+      "description": "Numéro d'événement, croissant par conversation, utilisé pour la reprise (`resume`, D44).",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "MessageId": {
+      "description": "Identifiant d'un message attribué par le hub.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "RequestId": {
+      "description": "Identifiant de requête propagé du client au plugin (ADR-010).",
+      "type": "string",
+      "format": "uuid"
+    },
+    "Retry": {
+      "description": "Indication de nouvelle tentative transmise au client.",
+      "oneOf": [
+        {
+          "description": "Ne pas réessayer.",
+          "type": "string",
+          "const": "never"
+        },
+        {
+          "description": "Réessayer plus tard.",
+          "type": "string",
+          "const": "later"
+        },
+        {
+          "description": "Réessayer après une action (reconnexion, rafraîchissement).",
+          "type": "string",
+          "const": "after"
+        }
+      ]
+    },
+    "SessionState": {
+      "description": "État de session envoyé au client ; il pilote la mascotte (dossier technique §7.2).",
+      "type": "string",
+      "enum": [
+        "idle",
+        "queued",
+        "thinking",
+        "tool",
+        "speaking"
+      ]
+    },
+    "ToolName": {
+      "description": "Nom d'outil, par exemple `time.now`.",
+      "type": "string"
+    },
+    "ToolStatus": {
+      "description": "Statut d'un appel d'outil signalé au client.",
+      "type": "string",
+      "enum": [
+        "started",
+        "succeeded",
+        "failed"
+      ]
+    }
+  }
+}

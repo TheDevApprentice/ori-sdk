@@ -3,6 +3,7 @@
 use std::collections::BTreeMap;
 use std::fmt;
 
+use schemars::JsonSchema;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use crate::ids::RequestId;
@@ -22,8 +23,17 @@ pub const ERROR_DOMAINS: [&str; 8] = [
 const MAX_CODE_LEN: usize = 64;
 
 /// Code d'erreur stable, de la forme `domaine.motif` en minuscules ASCII (`auth.invalid_credentials`).
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub struct ErrorCode(String);
+#[derive(Debug, Clone, PartialEq, Eq, Hash, JsonSchema)]
+#[schemars(transparent)]
+pub struct ErrorCode(
+    #[schemars(
+        regex(
+            pattern = r"^(auth|conversation|message|engine|plugin|rate|input|internal)\.[a-z0-9_]+$"
+        ),
+        length(max = 64)
+    )]
+    String,
+);
 
 /// Raison du refus d'un code d'erreur.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -92,7 +102,7 @@ impl<'de> Deserialize<'de> for ErrorCode {
 }
 
 /// Indication de nouvelle tentative transmise au client.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Retry {
     /// Ne pas réessayer.
@@ -104,7 +114,7 @@ pub enum Retry {
 }
 
 /// Corps d'erreur unique sur le réseau : aucune trace, chemin, requête SQL ni nom de crate.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct ErrorBody {
     /// Code stable traduit par le client.

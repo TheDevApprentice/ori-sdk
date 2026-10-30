@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ToolDescriptor",
+  "description": "Description d'un outil exposée par `describe`.",
+  "type": "object",
+  "properties": {
+    "description": {
+      "description": "Description destinée au modèle.",
+      "type": "string"
+    },
+    "input_schema": {
+      "description": "Schéma JSON des arguments."
+    },
+    "name": {
+      "description": "Nom unique.",
+      "$ref": "#/$defs/ToolName"
+    },
+    "output_trust": {
+      "description": "Fiabilité des résultats.",
+      "$ref": "#/$defs/Trust"
+    },
+    "risk": {
+      "description": "Risque minimal déclaré.",
+      "$ref": "#/$defs/Risk"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "description",
+    "risk",
+    "input_schema",
+    "output_trust"
+  ],
+  "$defs": {
+    "Risk": {
+      "description": "Nature déclarée de l'outil ; un minimum que le hub peut durcir, jamais assouplir (dossier technique §5.4).",
+      "oneOf": [
+        {
+          "description": "Lecture sans effet.",
+          "type": "string",
+          "const": "read"
+        },
+        {
+          "description": "Écriture réversible.",
+          "type": "string",
+          "const": "write_reversible"
+        },
+        {
+          "description": "Écriture destructive.",
+          "type": "string",
+          "const": "write_destructive"
+        },
+        {
+          "description": "Action physique sur un appareil.",
+          "type": "string",
+          "const": "physical"
+        }
+      ]
+    },
+    "ToolName": {
+      "description": "Nom d'outil, par exemple `time.now`.",
+      "type": "string"
+    },
+    "Trust": {
+      "description": "Fiabilité d'un résultat : un résultat non fiable est une donnée, jamais une instruction.",
+      "oneOf": [
+        {
+          "description": "Résultat produit par un composant de confiance.",
+          "type": "string",
+          "const": "trusted"
+        },
+        {
+          "description": "Résultat issu d'une source externe (mail, page, serveur MCP…).",
+          "type": "string",
+          "const": "untrusted"
+        }
+      ]
+    }
+  }
+}

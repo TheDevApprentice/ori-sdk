@@ -12,6 +12,7 @@ publish.workspace = true
 serde = { version = "=1.0.229", default-features = false, features = ["std", "derive"] }
 serde_json = { version = "=1.0.154", default-features = false, features = ["std"] }
 uuid = { version = "=1.29.0", default-features = false, features = ["std", "serde"] }
+schemars = { version = "=1.2.3", default-features = false, features = ["std", "derive", "uuid1"] }
 
 [lints]
 workspace = true

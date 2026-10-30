@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ToolCall",
+  "description": "Appel d'outil proposé par le modèle puis autorisé par le cœur (`call`).",
+  "type": "object",
+  "properties": {
+    "arguments": {
+      "description": "Arguments conformes au schéma de l'outil."
+    },
+    "name": {
+      "description": "Outil appelé.",
+      "$ref": "#/$defs/ToolName"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "arguments"
+  ],
+  "$defs": {
+    "ToolName": {
+      "description": "Nom d'outil, par exemple `time.now`.",
+      "type": "string"
+    }
+  }
+}

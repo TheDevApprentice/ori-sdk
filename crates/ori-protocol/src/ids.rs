@@ -1,12 +1,13 @@
 //! Identifiants du contrat : un type par concept (AGENTS.md), UUIDv7 sérialisés en texte (D41).
 
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 macro_rules! uuid_id {
     ($(#[$doc:meta] $name:ident),+ $(,)?) => {$(
         #[$doc]
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
         #[serde(transparent)]
         pub struct $name(Uuid);
 
@@ -36,7 +37,9 @@ uuid_id!(
 );
 
 /// Numéro d'événement, croissant par conversation, utilisé pour la reprise (`resume`, D44).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(transparent)]
 pub struct EventId(u64);
 
