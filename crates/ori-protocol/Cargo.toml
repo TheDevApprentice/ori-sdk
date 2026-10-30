@@ -1,0 +1,12 @@
+[package]
+name = "ori-protocol"
+version = "0.0.0"
+description = "Contrat public d'ORI : messages, erreurs, schémas, risque et capacités."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
