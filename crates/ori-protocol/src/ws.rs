@@ -1,5 +1,6 @@
 //! Messages WebSocket de la V0 (D44, dossier technique §6.2), étiquetés par le champ `type`.
 
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::error::ErrorBody;
@@ -7,7 +8,7 @@ use crate::ids::{ClientMessageId, ConversationId, EventId, MessageId};
 use crate::tool::ToolName;
 
 /// Message envoyé par un client au hub.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(tag = "type", deny_unknown_fields)]
 pub enum ClientMessage {
     /// Ouverture : version du protocole demandée (le jeton voyage hors du message, ADR-013).
@@ -35,7 +36,7 @@ pub enum ClientMessage {
 }
 
 /// État de session envoyé au client ; il pilote la mascotte (dossier technique §7.2).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum SessionState {
     Idle,
@@ -46,7 +47,7 @@ pub enum SessionState {
 }
 
 /// Statut d'un appel d'outil signalé au client.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ToolStatus {
     Started,
@@ -55,7 +56,7 @@ pub enum ToolStatus {
 }
 
 /// Message envoyé par le hub à un client.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(tag = "type", deny_unknown_fields)]
 pub enum ServerMessage {
     /// Version acceptée.

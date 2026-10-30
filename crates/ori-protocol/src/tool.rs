@@ -1,9 +1,10 @@
 //! Types d'outils partagés entre le cœur, le plugin-host et les plugins (ADR-002, D100).
 
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 /// Nom d'outil, par exemple `time.now`.
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, JsonSchema)]
 #[serde(transparent)]
 pub struct ToolName(String);
 
@@ -20,7 +21,7 @@ impl ToolName {
 }
 
 /// Nature déclarée de l'outil ; un minimum que le hub peut durcir, jamais assouplir (dossier technique §5.4).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Risk {
     /// Lecture sans effet.
@@ -34,7 +35,7 @@ pub enum Risk {
 }
 
 /// Fiabilité d'un résultat : un résultat non fiable est une donnée, jamais une instruction.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Trust {
     /// Résultat produit par un composant de confiance.
@@ -44,7 +45,7 @@ pub enum Trust {
 }
 
 /// Description d'un outil exposée par `describe`.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct ToolDescriptor {
     /// Nom unique.
@@ -60,7 +61,7 @@ pub struct ToolDescriptor {
 }
 
 /// Appel d'outil proposé par le modèle puis autorisé par le cœur (`call`).
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct ToolCall {
     /// Outil appelé.
@@ -70,7 +71,7 @@ pub struct ToolCall {
 }
 
 /// Résultat d'un appel d'outil.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct ToolResult {
     /// Contenu du résultat.
