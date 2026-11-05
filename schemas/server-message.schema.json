@@ -95,9 +95,15 @@
       ]
     },
     {
-      "description": "Appel d'outil en cours ou terminé.",
+      "description": "Appel d'outil en cours ou terminé. `detail` est un aperçu borné (arguments au\ndémarrage, extrait du résultat à la fin) pour la transparence côté client ;\nabsent quand rien n'est pertinent à montrer.",
       "type": "object",
       "properties": {
+        "detail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "event_id": {
           "$ref": "#/$defs/EventId"
         },

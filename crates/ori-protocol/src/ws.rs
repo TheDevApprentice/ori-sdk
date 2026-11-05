@@ -81,12 +81,16 @@ pub enum ServerMessage {
         message_id: MessageId,
         text: String,
     },
-    /// Appel d'outil en cours ou terminé.
+    /// Appel d'outil en cours ou terminé. `detail` est un aperçu borné (arguments au
+    /// démarrage, extrait du résultat à la fin) pour la transparence côté client ;
+    /// absent quand rien n'est pertinent à montrer.
     #[serde(rename = "tool")]
     Tool {
         event_id: EventId,
         tool: ToolName,
         status: ToolStatus,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        detail: Option<String>,
     },
     /// Message complet.
     #[serde(rename = "message.final")]
