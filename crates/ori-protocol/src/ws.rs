@@ -81,6 +81,16 @@ pub enum ServerMessage {
         message_id: MessageId,
         text: String,
     },
+    /// Morceau de réflexion exposée par le modèle sur un canal séparé (ex.
+    /// `reasoning_content` de llama.cpp). Éphémère : destiné à l'affichage,
+    /// jamais persisté ni renvoyé au modèle ; une persistance future grefferait
+    /// un collecteur côté hub sans changer ce message.
+    #[serde(rename = "thought")]
+    Thought {
+        event_id: EventId,
+        message_id: MessageId,
+        text: String,
+    },
     /// Appel d'outil en cours ou terminé. `detail` est un aperçu borné (arguments au
     /// démarrage, extrait du résultat à la fin) pour la transparence côté client ;
     /// absent quand rien n'est pertinent à montrer.
