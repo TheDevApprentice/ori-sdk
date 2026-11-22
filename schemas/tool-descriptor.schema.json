@@ -22,6 +22,11 @@
     "risk": {
       "description": "Risque minimal déclaré.",
       "$ref": "#/$defs/Risk"
+    },
+    "sink": {
+      "description": "Puits déclaré : coupé par le hub tant qu'un contenu non fiable est dans le tour.",
+      "$ref": "#/$defs/SinkKind",
+      "default": "none"
     }
   },
   "additionalProperties": false,
@@ -55,6 +60,26 @@
           "description": "Action physique sur un appareil.",
           "type": "string",
           "const": "physical"
+        }
+      ]
+    },
+    "SinkKind": {
+      "description": "Effet de bord d'un outil : puits sortant ou action non annulable. Le hub retient\nle plus strict entre le manifeste et le descripteur ; déclaré à partir du protocole 1\nétendu (ADR-042 côté dépôt privé) — absent des anciens descripteurs : `none`.",
+      "oneOf": [
+        {
+          "description": "Pas un puits : lecture ou écriture locale réversible.",
+          "type": "string",
+          "const": "none"
+        },
+        {
+          "description": "Fait sortir une donnée de l'environnement (`mail.send`, `calendar.create`…).",
+          "type": "string",
+          "const": "outbound"
+        },
+        {
+          "description": "Effet non annulable (futurs actuateurs).",
+          "type": "string",
+          "const": "irreversible"
         }
       ]
     },

@@ -44,6 +44,21 @@ pub enum Trust {
     Untrusted,
 }
 
+/// Effet de bord d'un outil : puits sortant ou action non annulable. Le hub retient
+/// le plus strict entre le manifeste et le descripteur ; déclaré à partir du protocole 1
+/// étendu (ADR-042 côté dépôt privé) — absent des anciens descripteurs : `none`.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum SinkKind {
+    /// Pas un puits : lecture ou écriture locale réversible.
+    #[default]
+    None,
+    /// Fait sortir une donnée de l'environnement (`mail.send`, `calendar.create`…).
+    Outbound,
+    /// Effet non annulable (futurs actuateurs).
+    Irreversible,
+}
+
 /// Description d'un outil exposée par `describe`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
@@ -58,6 +73,9 @@ pub struct ToolDescriptor {
     pub input_schema: serde_json::Value,
     /// Fiabilité des résultats.
     pub output_trust: Trust,
+    /// Puits déclaré : coupé par le hub tant qu'un contenu non fiable est dans le tour.
+    #[serde(default)]
+    pub sink: SinkKind,
 }
 
 /// Appel d'outil proposé par le modèle puis autorisé par le cœur (`call`).
