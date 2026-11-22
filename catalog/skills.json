@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "name": "cuisine-maison",
+      "description": "Aide à cuisiner avec ce qu'il y a — propose des recettes selon les ingrédients disponibles, les restes à utiliser et le temps dont on dispose.",
+      "path": "skills/cuisine-maison/SKILL.md",
+      "version": "1.0.0",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "rediger-skill",
+      "description": "Aide à écrire une skill ORI — format SKILL.md, bornes, règles de sécurité, et quand proposer son installation sur la page Plugins.",
+      "path": "skills/rediger-skill/SKILL.md",
+      "version": "1.0.0",
+      "license": "Apache-2.0"
+    }
+  ]
+}
