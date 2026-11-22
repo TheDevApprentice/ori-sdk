@@ -25,7 +25,7 @@
       ]
     },
     {
-      "description": "Envoi d'un message texte.",
+      "description": "Envoi d'un message texte. `skills` nomme des skills actives à injecter pour\nce tour (mentions « @ », ADR-052) : noms de skills, bornés et validés par le\ncœur — un nom inconnu fait refuser le message.",
       "type": "object",
       "properties": {
         "client_msg_id": {
@@ -33,6 +33,13 @@
         },
         "conversation_id": {
           "$ref": "#/$defs/ConversationId"
+        },
+        "skills": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
         },
         "text": {
           "type": "string"

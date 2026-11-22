@@ -19,6 +19,7 @@ fn a_message_send_round_trips_with_its_wire_name() {
         conversation_id: ConversationId::from_uuid(uuid()),
         client_msg_id: ClientMessageId::from_uuid(uuid()),
         text: "Bonjour <script>".to_owned(),
+        skills: Vec::new(),
     };
     let json = serde_json::to_string(&msg).unwrap();
     assert!(json.contains(r#""type":"message.send""#));
