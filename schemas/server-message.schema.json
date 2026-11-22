@@ -95,6 +95,32 @@
       ]
     },
     {
+      "description": "Morceau de réflexion exposée par le modèle sur un canal séparé (ex.\n`reasoning_content` de llama.cpp). Éphémère : destiné à l'affichage,\njamais persisté ni renvoyé au modèle ; une persistance future grefferait\nun collecteur côté hub sans changer ce message.",
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/EventId"
+        },
+        "message_id": {
+          "$ref": "#/$defs/MessageId"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "thought"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "event_id",
+        "message_id",
+        "text"
+      ]
+    },
+    {
       "description": "Appel d'outil en cours ou terminé. `detail` est un aperçu borné (arguments au\ndémarrage, extrait du résultat à la fin) pour la transparence côté client ;\nabsent quand rien n'est pertinent à montrer.",
       "type": "object",
       "properties": {
