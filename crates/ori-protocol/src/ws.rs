@@ -14,12 +14,16 @@ pub enum ClientMessage {
     /// Ouverture : version du protocole demandée (le jeton voyage hors du message, ADR-013).
     #[serde(rename = "hello")]
     Hello { proto: u16 },
-    /// Envoi d'un message texte.
+    /// Envoi d'un message texte. `skills` nomme des skills actives à injecter pour
+    /// ce tour (mentions « @ », ADR-052) : noms de skills, bornés et validés par le
+    /// cœur — un nom inconnu fait refuser le message.
     #[serde(rename = "message.send")]
     MessageSend {
         conversation_id: ConversationId,
         client_msg_id: ClientMessageId,
         text: String,
+        #[serde(default)]
+        skills: Vec<String>,
     },
     /// Annulation d'une génération en cours.
     #[serde(rename = "cancel")]
