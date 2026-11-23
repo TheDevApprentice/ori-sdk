@@ -1,0 +1,46 @@
+name: Release
+
+# Sur chaque fusion dans main, release-please entretient la PR de release
+# (CHANGELOG.md + version.txt + workspace.package.version) ; sa fusion crée
+# tag vX.Y.Z + GitHub Release.
+# `release-type: simple` : le releaser `rust` ne lit pas `version.workspace`
+# (googleapis/release-please#2111) ; la version vit dans [workspace.package].
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      pr: ${{ steps.release.outputs.pr }}
+      prs_created: ${{ steps.release.outputs.prs_created }}
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # release-please ne touche pas Cargo.lock : sans cette étape, la PR de
+  # release casserait `cargo --locked` dès le prochain run de CI.
+  lockfile:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.prs_created == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ fromJSON(needs.release-please.outputs.pr).headBranchName }}
+      - run: cargo update --workspace
+      - name: Pousser Cargo.lock synchronisé
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Cargo.lock
+          git diff --staged --quiet || \
+            git commit -m "chore: synchroniser Cargo.lock avec la version de release"
+          git push
