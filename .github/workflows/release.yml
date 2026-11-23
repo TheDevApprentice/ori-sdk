@@ -8,6 +8,9 @@ name: Release
 on:
   push:
     branches: [main]
+  # Relance manuelle : nécessaire après la pose rétroactive d'un tag de base
+  # (ex. v0.5.0) — le scan se recale alors sur les commits post-tag.
+  workflow_dispatch:
 
 permissions:
   contents: write
