@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "issued_at": "2026-11-23",
+  "servers": [
+    {
+      "id": "mcp-time",
+      "image": "mcp/time@sha256:9c46a918633fb474bf8035e3ee90ebac6bcf2b18ccb00679ac4c179cba0ebfcf",
+      "description": "Heure courante et conversions de fuseaux horaires.",
+      "stateful": false,
+      "network": [],
+      "user": "0:0",
+      "allow_root": true,
+      "status": "active"
+    },
+    {
+      "id": "mcp-memory",
+      "image": "mcp/memory@sha256:db0c2db07a44b6797eba7a832b1bda142ffc899588aae82c92780cbb2252407f",
+      "description": "Mémoire persistante (graphe de connaissances), volume dédié par propriétaire.",
+      "stateful": true,
+      "volume": "/app/dist",
+      "env": {
+        "MEMORY_FILE_PATH": "/app/dist/memory.json"
+      },
+      "network": [],
+      "user": "10001:10001",
+      "status": "active"
+    },
+    {
+      "id": "mcp-filesystem",
+      "image": "mcp/filesystem@sha256:35fcf0217ca0d5bf7b0a5bd68fb3b89e08174676c0e0b4f431604512cf7b3f67",
+      "description": "Lecture et écriture dans le volume dédié par propriétaire — rien d'autre du disque.",
+      "stateful": true,
+      "volume": "/data",
+      "cmd": [
+        "/data"
+      ],
+      "network": [],
+      "user": "10001:10001",
+      "status": "active"
+    }
+  ]
+}
