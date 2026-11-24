@@ -14,6 +14,13 @@
       "path": "skills/rediger-skill/SKILL.md",
       "version": "1.0.0",
       "license": "Apache-2.0"
+    },
+    {
+      "name": "expert-bourse",
+      "description": "Recherche boursière et aide à la décision de trading : analyse d'un titre, idées de trade avec stop et gestion du risque, explication de concepts.",
+      "path": "skills/expert-bourse/SKILL.md",
+      "version": "1.0.0",
+      "license": "Apache-2.0"
     }
   ]
 }
