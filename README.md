@@ -45,6 +45,11 @@ reconstruite à chaud sur http://127.0.0.1:8081).
 
 Apache License 2.0 (D19, D49) : voir [`LICENSE`](LICENSE).
 
+## Documentation
+
+Index complet : [`docs/README.md`](docs/README.md) — contrat `ori-protocol`,
+schémas générés, ADR, catalogue signé et format des skills.
+
 ## Contribuer
 
 Voir [`CONTRIBUTING.md`](CONTRIBUTING.md) (DCO obligatoire), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), [`SECURITY.md`](SECURITY.md) et [`VERSIONING.md`](VERSIONING.md). Les règles pour tout agent de code sont dans [`AGENTS.md`](AGENTS.md).
