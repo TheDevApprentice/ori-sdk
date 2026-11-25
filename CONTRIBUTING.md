@@ -26,6 +26,21 @@ La certification DCO est un engagement **humain**. Pour un commit préparé par 
 - Jamais de push direct ni de force-push sur `main`. Jamais de `git add .` à l'aveugle : inspecter `git status` et `git diff --staged`.
 - Une issue, une branche, une PR, de taille relisible en une session.
 
+## Backlog et suivi
+
+Tout travail — fonctionnalité, correction, documentation, tâche de fond — passe
+par une **issue GitHub** avant de devenir une branche. Pas d'issue, pas de PR.
+
+- **Board** : le projet « [ori-sdk — backlog](https://github.com/users/TheDevApprentice/projects/16) »
+  (lié au dépôt) est le backlog unique. La story suit `Todo` → `In Progress` → `Done`.
+- **Story** : une issue décrit le but, le contexte et des **critères de sortie
+  mesurables** quand c'est pertinent (label `type:mesure`).
+- **Labels** : `area:*` pour le domaine touché (`protocol`, `catalogue`,
+  `skills`, `client`) ; `adr-requis` quand une décision d'architecture
+  précède le code.
+- **Lien** : la PR référence l'issue (`closes #NNN`) — la story passe à Done à
+  la fusion squash et la branche est supprimée.
+
 ## Avant d'ouvrir une PR
 
 - Lire `AGENTS.md` et respecter ses règles (architecture, Rust, sécurité, dépendances, tests).
