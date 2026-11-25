@@ -46,6 +46,7 @@ Version 1 · alignée le 17 octobre 2026 sur le Registre consolidé des décisio
 - Nom de test = phrase (`a_token_works_only_once`). Un bug corrigé reçoit un test de non-régression.
 
 ## Git
+- Toute branche part d'une **issue GitHub** suivie sur le board projet (voir `CONTRIBUTING.md` § Backlog et suivi). Pas d'issue, pas de PR.
 - Branches courtes : `feat/123-…`, `fix/…`. Conventional Commits à l'impératif. Squash merge. Jamais de push direct sur `main`, jamais de `git add .` à l'aveugle.
 - Dans le dépôt privé, le lien local vers le dépôt public (`[patch]` dans `.cargo/config.toml`) n'est jamais committé.
 
