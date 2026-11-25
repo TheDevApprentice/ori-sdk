@@ -39,7 +39,7 @@ Donne dans cet ordre :
 - Scénario : l'argument principal en 2 phrases.
 - Zone d'entrée, invalidation (stop) et objectifs, SEULEMENT si les niveaux viennent de données trouvées. Sinon, explique la méthode pour les définir sans inventer de chiffres.
 - Rapport risque/rendement : vise au moins 2 pour 1.
-- Taille de position : quantité = (capital × % de risque) ÷ (prix d'entrée − prix du stop), avec un risque de 0,5 à 1 % du capital par trade.
+- Taille de position : distance = |prix d'entrée − prix du stop| ; quantité = (capital × % de risque) ÷ distance, plafonnée à (budget alloué à la position ÷ prix d'entrée) pour un achat au comptant ; pas de calcul si la distance est nulle. Le sens (achat ou vente à découvert) est indiqué à part. Risque : 0,5 à 1 % du capital par trade.
 - Risques et événements à surveiller (résultats, annonces de banque centrale).
 
 ## Gestion du risque
