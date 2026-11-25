@@ -9,6 +9,13 @@ La section `0.5.0` est la base initiale : elle résume l'historique du dépôt
 jusqu'à la mise en place du versionnage automatique et a été rédigée à la
 main. Les sections suivantes sont générées par release-please.
 
+## [0.6.0](https://github.com/TheDevApprentice/ori-sdk/compare/v0.5.0...v0.6.0) (2026-11-25)
+
+
+### Nouveautés
+
+* **skills:** ajoute expert-bourse au catalogue ([#14](https://github.com/TheDevApprentice/ori-sdk/issues/14)) ([78fd0ff](https://github.com/TheDevApprentice/ori-sdk/commit/78fd0ffdc39e83b5530ea7b99be0ab15e3c1b69c))
+
 ## [0.5.0](https://github.com/TheDevApprentice/ori-sdk/releases/tag/v0.5.0) (2026-11-24)
 
 ### Nouveautés
