@@ -6,8 +6,8 @@ le dépôt privé `ori` (`docs/`, voir `ori/docs/README.md`).
 
 ## Le contrat — `ori-protocol`
 
-Source unique des messages entre le hub et ses clients (D40) ; ne dépend
-d'aucune autre crate (ADR-011).
+**[`protocol.md`](protocol.md)** — source unique des messages entre le hub et
+ses clients (D40) ; ne dépend d'aucune autre crate (ADR-011).
 
 - **Code** : [`crates/ori-protocol`](../crates/ori-protocol/) — messages
   WebSocket, codes d'erreur stables, niveaux de risque, capacités des outils.
@@ -23,17 +23,16 @@ d'aucune autre crate (ADR-011).
 [`decisions/`](decisions/) — ADR propres à ce dépôt (ADR-000 modèle
 interchangeable, ADR-001 génération du contrat). Les ADR sont immuables.
 L'autorité amont reste le registre consolidé V3 du dépôt privé
-(`ori/docs/reference/ORI_Registre_des_decisions_v3.md`).
+(`ori/docs/DECISIONS.md`).
 
 ## Catalogue et skills
 
-- [`catalog/`](../catalog/) — catalogue signé des serveurs MCP Docker
-  (`mcp-servers.json` + `.minisig`, `revocations.json`, `minisign.pub`) et des
-  skills publiques (`skills.json`). Format et vérification : ADR-053 dans `ori`.
-- [`skills/`](../skills/) — skills publiques (`SKILL.md` : frontmatter
-  `name`/`description`/`license` + consignes). La description du catalogue doit
-  égaler **exactement** le frontmatter — le test `catalog_entries_…` le vérifie.
-  Écrire une skill : [`skills/rediger-skill/SKILL.md`](../skills/rediger-skill/SKILL.md).
+- **[`catalogue.md`](catalogue.md)** — [`catalog/`](../catalog/) : catalogue
+  signé (minisign/Ed25519) des serveurs MCP Docker et des skills publiques,
+  révocations, règle `fail-closed`.
+- **[`skills.md`](skills.md)** — [`skills/`](../skills/) : format `SKILL.md`
+  (frontmatter, bornes, sécurité), égalité exacte description ↔ catalogue,
+  installation côté hub.
 
 ## Règles de contribution
 
