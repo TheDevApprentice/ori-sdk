@@ -14,6 +14,13 @@
       "path": "skills/rediger-skill/SKILL.md",
       "version": "1.0.0",
       "license": "Apache-2.0"
+    },
+    {
+      "name": "expert-bourse",
+      "description": "Recherche boursière et aide à la décision de trading : analyse d'une action, d'un ETF ou d'une crypto (fondamentale, technique, actualité), idées de trade avec stop et gestion du risque, screening d'opportunités, explication de concepts. À utiliser pour toute question sur la bourse, un cours, un ticker, un investissement ou un trade.",
+      "path": "skills/expert-bourse/SKILL.md",
+      "version": "1.0.0",
+      "license": "Apache-2.0"
     }
   ]
 }
