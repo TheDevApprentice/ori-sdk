@@ -3,7 +3,7 @@
 Version 1 · alignée le 17 octobre 2026 sur le Registre consolidé des décisions V3 et dérivée de la charte de code référencée par le projet. À appliquer dans les dépôts ORI privé et SDK public (identifiants prévus `ori` et `ori-sdk`, à confirmer avant création/publication). En cas de doute ou de contradiction avec la V3 : **s'arrêter et poser la question**. Le Registre consolidé V3 prime sur les autres documents projet.
 
 ## Avant d'écrire une ligne
-1. Lire ce fichier, la charte de code (référence actuelle : `PDF/ORI_CHARTE_DE_CODE.pdf`), le Registre consolidé V3 et la tâche demandée.
+1. Lire ce fichier, la charte de code (référence actuelle : `docs/PDF/ORI_CHARTE_DE_CODE.pdf` dans le dépôt privé `ori`), le Registre consolidé V3 et la tâche demandée.
 2. Ne pas inventer de fonctions, de crates ni de versions. Vérifier dans la documentation ou le code existant ; sinon, le dire.
 3. Rester dans le périmètre de la tâche. Pas de refonte « au passage ». Une tranche verticale par modification.
 4. Proposer plutôt qu'imposer pour toute décision d'architecture : écrire un ADR (`docs/decisions/`) et attendre la validation du porteur.
