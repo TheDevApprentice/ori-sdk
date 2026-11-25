@@ -1,55 +1,40 @@
 # ori-sdk
 
-Dépôt **public** de l'écosystème **ORI**, assistant IA auto-hébergé et local d'abord.
+**Frontière publique** d'**ORI**, assistant IA auto-hébergé et local d'abord :
+contrat de messages, catalogue signé et skills publiques.
 
-> **Statut :** dépôt public depuis la mise en place du catalogue MCP signé. `main` est
-> protégé : PR obligatoire, checks requis (`fmt`, `clippy`, `test`, `deny`, `boundaries`,
-> `secrets`), historique linéaire. Le contenu est ajouté tranche par tranche, après
-> validation du porteur.
+> Dépôt public — Apache License 2.0 · `main` protégé (PR + checks requis)
 
-## Rôle
+## Contenu
 
-Ce dépôt porte la **frontière publique** d'ORI (D25) :
+| Dossier | Rôle |
+|---|---|
+| `crates/ori-protocol` | **Source unique du contrat** : messages WebSocket, appels d'outils, niveaux de risque, codes d'erreur stables. Ne dépend d'aucune autre crate |
+| `schemas/` | JSON Schema **générés** depuis `ori-protocol` — jamais édités à la main |
+| `catalog/` | catalogue **signé** (minisign/Ed25519) : serveurs MCP épinglés par `image@sha256`, skills publiques, révocations — `fail-closed` |
+| `skills/` | skills publiques au format `SKILL.md` (agentskills.io) |
 
-- `crates/ori-protocol` : messages, codes d'erreur, schémas, niveaux de risque et
-  capacités. Source unique du contrat (D40) — ne dépend d'aucune autre crate (ADR-011).
-- `catalog/` : catalogue signé des serveurs MCP Docker (`mcp-servers.json` +
-  `mcp-servers.json.minisig`, `revocations.json` signé, `minisign.pub`). Le hub télécharge
-  ces fichiers en brut et le side-car `ori-mcp-gw` en vérifie les signatures Ed25519
-  (format minisign, préhash BLAKE2b) avant de résoudre `server_id` → `image@sha256` —
-  voir [`../ori` ADR-053](../). Une entrée révoquée ou une signature invalide est
-  rejetée (fail-closed).
-- `skills/` : skills publiques consommées par le hub.
-- Plus tard : SDK de plugin, kit de tests de conformité, plugins officiels.
+Détail technique : [`docs/protocol.md`](docs/protocol.md) ·
+[`docs/catalogue.md`](docs/catalogue.md) · [`docs/skills.md`](docs/skills.md).
 
-Le dépôt privé `ori` dépend de ce dépôt **uniquement via des versions taguées**,
-jamais l'inverse. Un test de CI vérifie cette frontière.
+## Relation avec `ori`
 
-## Lancer ORI
+ORI (dépôt privé, le produit) consomme ce dépôt **uniquement via des versions
+taguées** — jamais l'inverse. Un check CI (`boundaries`) vérifie la frontière.
+Ce dépôt est une **bibliothèque** : il ne se lance pas.
 
-ORI s'exécute depuis le dépôt **privé `ori`** — ce dépôt-ci est une bibliothèque, pas
-un produit lançable. Collaborateurs : le manuel complet est dans
-`ori/DEVELOPPEMENT.md` ; en résumé :
+Modifier le contrat : types d'abord dans `ori-protocol`, puis régénérer
+`schemas/` (`ORI_UPDATE_SCHEMAS=1 cargo test -p ori-protocol --test schemas`),
+même commit — détail : [`docs/protocol.md`](docs/protocol.md).
 
-```powershell
-.\scripts\ori-up.ps1        # Windows
-./scripts/ori-up.sh         # Linux / macOS
+## Vérifier
+
+```bash
+cargo fmt --check && cargo clippy -- -D warnings && cargo test && cargo deny check
 ```
 
-Le script propose la pile selon le matériel : **prod CPU** (Intel ou AMD — même image),
-**prod GPU** (`compose.gpu-nvidia.yaml` CUDA, `compose.gpu-amd.yaml` ROCm — Linux natif,
-`compose.gpu-intel.yaml` SYCL — Linux natif) ou **dev type prod + GPU** (interface
-reconstruite à chaud sur http://127.0.0.1:8081).
+## Documentation et contribution
 
-## Licence
-
-Apache License 2.0 (D19, D49) : voir [`LICENSE`](LICENSE).
-
-## Documentation
-
-Index complet : [`docs/README.md`](docs/README.md) — contrat `ori-protocol`,
-schémas générés, ADR, catalogue signé et format des skills.
-
-## Contribuer
-
-Voir [`CONTRIBUTING.md`](CONTRIBUTING.md) (DCO obligatoire), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), [`SECURITY.md`](SECURITY.md) et [`VERSIONING.md`](VERSIONING.md). Les règles pour tout agent de code sont dans [`AGENTS.md`](AGENTS.md).
+Index : [`docs/README.md`](docs/README.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md)
+(DCO) · [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) · [`SECURITY.md`](SECURITY.md)
+· [`VERSIONING.md`](VERSIONING.md) · [`AGENTS.md`](AGENTS.md).
